@@ -86,14 +86,14 @@ lazy val `akka-http-jackson` =
 
 lazy val `akka-http-json4s` =
   project
-    .enablePlugins(AutomateHeaderPlugin)
+    //.enablePlugins(AutomateHeaderPlugin)
     .settings(settings)
     .settings(
       libraryDependencies ++= Seq(
         library.akkaHttp,
         library.akkaStream,
         library.json4sCore,
-        library.json4sJackson % Test,
+        library.json4sJackson, // % Test
         library.json4sNative  % Test,
         library.scalaTest     % Test
       )
@@ -217,7 +217,7 @@ lazy val settings =
 
 lazy val commonSettings =
   Seq(
-    scalaVersion := "2.13.1",
+    scalaVersion := "2.12.10",
     crossScalaVersions := Seq(scalaVersion.value, "2.12.10"),
     organizationName := "Heiko Seeberger",
     startYear := Some(2015),
