@@ -44,7 +44,12 @@ object SerializingClassesDefinedInTraitsApp extends App {
 
   object PingPongGame extends SharedModule
 
+  implicit val formats: Formats = DefaultFormats
+    .withCompanions(classOf[PingPongGame.SharedObj] -> PingPongGame)
+    .withCompanions(classOf[PingPongGame.CommonLog] -> PingPongGame)
+
   val inst = PingPongGame.SharedObj("jeff", visible = true)
+  println("... SharedObj ...\n" + inst)
 
   {
 
@@ -57,15 +62,12 @@ object SerializingClassesDefinedInTraitsApp extends App {
       *
       * However, with this block commented out, everything works.
       */
-    // TODO: Avoid classes defined in traits or classes.
+    // TODO: Avoid classes defined in traits or classes!
 
 //    import Json4sJacksonSerDer._
 //    val instJSON = inst.toJSON
 //    println(instJSON)
   }
-
-  implicit val formats: Formats =
-    DefaultFormats.withCompanions(classOf[PingPongGame.SharedObj] -> PingPongGame)
 
   // 1
   val extr = Extraction.decompose(inst)
@@ -78,6 +80,20 @@ object SerializingClassesDefinedInTraitsApp extends App {
   val jsonParsed = parse(json)
   println(jsonParsed)                                 //== JObject(List((name,JString(jeff)), (visible,JBool(true))))
   println(jsonParsed.extract[PingPongGame.SharedObj]) //== SharedObj(jeff,true)
+
+  // 3 CommonLog
+  val cl = PingPongGame.CommonLog()
+  println("... CommonLog ...\n" + cl)
+  val clExtr = Extraction.decompose(cl)
+  println(clExtr) //== JObject(List())
+  println(clExtr.extract[PingPongGame.CommonLog])
+
+  // 4 CommonLog
+  val clJSON = compact(clExtr)
+  println(clJSON) //== {}
+  val clParsed = parse(clJSON)
+  println(clParsed)                                 //== JObject(List())
+  println(clParsed.extract[PingPongGame.CommonLog]) //== CommonLog(None)
 }
 
 object Json4sSerDeApp extends App {
@@ -123,7 +139,7 @@ object ExploreJson4sApp {
       """
     {
         "id":               "ss.h",
-        "name":             "Hourly SS Packetbrain Sequence File",
+        "name":             "Hourly SS",
         "descriptions":     ["Sequence file session summary hourly partitions"],
         
         "basePath":         "{access}/3d/prod/stateful_ss/hive_sdm2_ss",

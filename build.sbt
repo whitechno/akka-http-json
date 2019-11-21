@@ -24,6 +24,7 @@ lazy val `akka-http-json` =
   project
     .in(file("."))
     .aggregate(
+      `aeaea-json`,
       `akka-http-argonaut`,
       `akka-http-avro4s`,
 //      `akka-http-avsystem-gencodec`,
@@ -39,6 +40,19 @@ lazy val `akka-http-json` =
       Compile / unmanagedSourceDirectories := Seq.empty,
       Test / unmanagedSourceDirectories    := Seq.empty,
       publishArtifact := false
+    )
+
+lazy val `aeaea-json` =
+  project
+    //.enablePlugins(AutomateHeaderPlugin)
+    .settings(settings)
+    .settings(
+      libraryDependencies ++= Seq(
+        library.json4sCore,
+        library.json4sJackson, // % Test
+        library.json4sNative, //  % Test,
+        library.scalaTest     % Test
+      )
     )
 
 lazy val `akka-http-argonaut`=
