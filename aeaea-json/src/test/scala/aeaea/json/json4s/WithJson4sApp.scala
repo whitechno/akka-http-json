@@ -3,8 +3,8 @@ package aeaea.json.json4s
 // with Json4s Jackson
 private object WithJson4sJacksonApp extends App {
   import aeaea.json.base.FromJSON
-  import aeaea.json.base.JsonSerDe._ // for toJSON function
-  import WithJson4sJackson._         // for implicit JsonSerializer and JsonDeserializer
+  import aeaea.json.base.JsonSerDe._ // for toJSON function in implicit class
+  import WithJson4sJackson._         // for implicit args JsonSerializer and JsonDeserializer
 
   final case class Foo(bar: String)
 

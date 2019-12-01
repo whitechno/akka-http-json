@@ -1,0 +1,3 @@
+WHERE DOES SCALA LOOK FOR IMPLICITS?
+here: https://docs.scala-lang.org/tutorials/FAQ/finding-implicits.html
+

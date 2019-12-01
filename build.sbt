@@ -25,6 +25,8 @@ lazy val `akka-http-json` =
     .in(file("."))
     .aggregate(
       `aeaea-json`,
+      `aeaea-simple-time`,
+      `aeaea-zzz`,
       `akka-http-argonaut`,
       `akka-http-avro4s`,
 //      `akka-http-avsystem-gencodec`,
@@ -38,24 +40,46 @@ lazy val `akka-http-json` =
     .settings(settings)
     .settings(
       Compile / unmanagedSourceDirectories := Seq.empty,
-      Test / unmanagedSourceDirectories    := Seq.empty,
+      Test / unmanagedSourceDirectories := Seq.empty,
       publishArtifact := false
     )
 
 lazy val `aeaea-json` =
   project
-    //.enablePlugins(AutomateHeaderPlugin)
+  //.enablePlugins(AutomateHeaderPlugin)
     .settings(settings)
     .settings(
       libraryDependencies ++= Seq(
         library.json4sCore,
         library.json4sJackson, // % Test
         library.json4sNative, //  % Test,
-        library.scalaTest     % Test
+        library.scalaTest % Test
       )
     )
 
-lazy val `akka-http-argonaut`=
+lazy val `aeaea-simple-time` =
+  project
+    //.enablePlugins(AutomateHeaderPlugin)
+    .settings(settings)
+    .settings(
+      libraryDependencies ++= Seq(
+        library.jodaTime,
+        library.scalaTest % Test
+      )
+    )
+
+lazy val `aeaea-zzz` =
+  project
+  //.enablePlugins(AutomateHeaderPlugin)
+    .settings(settings)
+    .settings(
+      libraryDependencies ++= Seq(
+        library.jodaTime % Test,
+        library.scalaTest % Test
+      )
+    )
+
+lazy val `akka-http-argonaut` =
   project
     .enablePlugins(AutomateHeaderPlugin)
     .settings(settings)
@@ -93,14 +117,14 @@ lazy val `akka-http-jackson` =
         library.akkaStream,
         library.akkaHttpJacksonJava,
         library.jacksonModuleScala,
-        "org.scala-lang" % "scala-reflect" % scalaVersion.value,
+        "org.scala-lang"  % "scala-reflect" % scalaVersion.value,
         library.scalaTest % Test
       )
     )
 
 lazy val `akka-http-json4s` =
   project
-    //.enablePlugins(AutomateHeaderPlugin)
+  //.enablePlugins(AutomateHeaderPlugin)
     .settings(settings)
     .settings(
       libraryDependencies ++= Seq(
@@ -108,8 +132,8 @@ lazy val `akka-http-json4s` =
         library.akkaStream,
         library.json4sCore,
         library.json4sJackson, // % Test
-        library.json4sNative  % Test,
-        library.scalaTest     % Test
+        library.json4sNative % Test,
+        library.scalaTest    % Test
       )
     )
 
@@ -123,7 +147,7 @@ lazy val `akka-http-jsoniter-scala` =
         library.akkaStream,
         library.jsoniterScalaCore,
         library.jsoniterScalaMacros % Test,
-        library.scalaTest % Test
+        library.scalaTest           % Test
       )
     )
 
@@ -162,7 +186,7 @@ lazy val `akka-http-avro4s` =
         library.akkaHttp,
         library.akkaStream,
         library.avro4sJson,
-        library.scalaTest     % Test
+        library.scalaTest % Test
       )
     )
 
@@ -192,6 +216,7 @@ lazy val library =
       val avro4s             = "3.0.3"
       val circe              = "0.12.3"
       val jacksonModuleScala = "2.10.0"
+      val jodaTime           = "2.10.5" // 2019-11-29
       val jsoniterScala      = "1.1.1"
       val json4s             = "3.6.7"
       val play               = "2.7.4"
@@ -209,6 +234,7 @@ lazy val library =
     val circeParser         = "io.circe"                              %% "circe-parser"          % Version.circe
     val circeGeneric        = "io.circe"                              %% "circe-generic"         % Version.circe
     val jacksonModuleScala  = "com.fasterxml.jackson.module"          %% "jackson-module-scala"  % Version.jacksonModuleScala
+    val jodaTime            = "joda-time"                             % "joda-time"              % Version.jodaTime
     val json4sCore          = "org.json4s"                            %% "json4s-core"           % Version.json4s
     val json4sJackson       = "org.json4s"                            %% "json4s-jackson"        % Version.json4s
     val json4sNative        = "org.json4s"                            %% "json4s-native"         % Version.json4s
@@ -224,10 +250,10 @@ lazy val library =
 // *****************************************************************************
 
 lazy val settings =
-  commonSettings ++
-  gitSettings ++
-  scalafmtSettings ++
-  publishSettings
+commonSettings ++
+gitSettings ++
+scalafmtSettings ++
+publishSettings
 
 lazy val commonSettings =
   Seq(
@@ -240,11 +266,12 @@ lazy val commonSettings =
       "-deprecation",
       "-language:_",
       "-target:jvm-1.8",
-      "-encoding", "UTF-8"
+      "-encoding",
+      "UTF-8"
     ),
     Compile / unmanagedSourceDirectories := Seq((Compile / scalaSource).value),
     Test / unmanagedSourceDirectories := Seq((Test / scalaSource).value)
-)
+  )
 
 lazy val gitSettings =
   Seq(
