@@ -24,7 +24,8 @@ lazy val `akka-http-json` =
   project
     .in(file("."))
     .aggregate(
-      `aeaea-json`,
+      `aeaea-simple-json`,
+      `aeaea-simple-restapi`,
       `aeaea-simple-time`,
       `aeaea-zzz`,
       `akka-http-argonaut`,
@@ -44,15 +45,15 @@ lazy val `akka-http-json` =
       publishArtifact := false
     )
 
-lazy val `aeaea-json` =
+lazy val `aeaea-simple-json` =
   project
   //.enablePlugins(AutomateHeaderPlugin)
     .settings(settings)
     .settings(
       libraryDependencies ++= Seq(
         library.json4sCore,
-        library.json4sJackson, // % Test
-        library.json4sNative, //  % Test,
+        library.json4sJackson,
+        library.json4sNative,
         library.scalaTest % Test
       )
     )
@@ -68,13 +69,22 @@ lazy val `aeaea-simple-time` =
       )
     )
 
+lazy val `aeaea-simple-restapi` =
+  project
+    //.enablePlugins(AutomateHeaderPlugin)
+    .settings(settings)
+    .settings(
+      libraryDependencies ++= Seq(
+        library.scalaTest % Test
+      )
+    )
+
 lazy val `aeaea-zzz` =
   project
   //.enablePlugins(AutomateHeaderPlugin)
     .settings(settings)
     .settings(
       libraryDependencies ++= Seq(
-        library.jodaTime % Test,
         library.scalaTest % Test
       )
     )
