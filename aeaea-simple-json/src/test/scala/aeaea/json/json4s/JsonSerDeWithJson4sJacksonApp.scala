@@ -6,11 +6,10 @@ private object JsonSerDeWithJson4sJacksonApp extends App {
 
   final case class Foo(bar: String)
 
-  object JsonSerDeWithJson4sJackson extends JsonSerDe with WithJson4sJackson {
-    final case class InnerFoo(bar: String)
-  }
-
   {
+    object JsonSerDeWithJson4sJackson extends JsonSerDe with WithJson4sJackson {
+      final case class InnerFoo(bar: String)
+    }
     import JsonSerDeWithJson4sJackson._
     println(fromJSON[InnerFoo]("""{ "bar": "bar1" }"""))
     println(InnerFoo("implicit via parent").toJSON)
