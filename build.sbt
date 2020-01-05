@@ -60,7 +60,7 @@ lazy val `aeaea-simple-json` =
 
 lazy val `aeaea-simple-time` =
   project
-    //.enablePlugins(AutomateHeaderPlugin)
+  //.enablePlugins(AutomateHeaderPlugin)
     .settings(settings)
     .settings(
       libraryDependencies ++= Seq(
@@ -71,7 +71,7 @@ lazy val `aeaea-simple-time` =
 
 lazy val `aeaea-simple-restapi` =
   project
-    //.enablePlugins(AutomateHeaderPlugin)
+  //.enablePlugins(AutomateHeaderPlugin)
     .settings(settings)
     .settings(
       libraryDependencies ++= Seq(
@@ -276,8 +276,7 @@ lazy val commonSettings =
       "-deprecation",
       "-language:_",
       "-target:jvm-1.8",
-      "-encoding",
-      "UTF-8"
+      "-encoding", "UTF-8"
     ),
     Compile / unmanagedSourceDirectories := Seq((Compile / scalaSource).value),
     Test / unmanagedSourceDirectories := Seq((Test / scalaSource).value)
