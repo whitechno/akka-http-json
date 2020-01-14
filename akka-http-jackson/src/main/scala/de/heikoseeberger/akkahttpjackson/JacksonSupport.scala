@@ -84,8 +84,8 @@ trait JacksonSupport {
       implicit ct: TypeTag[A],
       objectMapper: ObjectMapper = defaultObjectMapper
   ): FromEntityUnmarshaller[A] =
-    jsonStringUnmarshaller.map(
-      data => objectMapper.readValue(data, typeReference[A]).asInstanceOf[A]
+    jsonStringUnmarshaller.map(data =>
+      objectMapper.readValue(data, typeReference[A]).asInstanceOf[A]
     )
 
   /**

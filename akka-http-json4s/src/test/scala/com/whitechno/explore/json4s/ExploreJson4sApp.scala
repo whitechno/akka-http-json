@@ -165,23 +165,23 @@ object ExploreJson4sApp {
 case class TryReservedWord(`type`: Byte)
 
 case class DtPartition(
-    fmt: String, // "yyyy_MM_dd_HH"
+    fmt: String,                  // "yyyy_MM_dd_HH"
     toFmt: Option[String] = None, // "_'to'_yyyy_MM_dd_HH"
-    step: Option[String] = None // ISO8601 "PT1H"
+    step: Option[String] = None   // ISO8601 "PT1H"
 )
 
 case class DMC(
     id: Option[String] = None,
     name: Option[String] = None,
-    description: Option[String] = None, // either one-liner ...
+    description: Option[String] = None,       // either one-liner ...
     descriptions: Option[Seq[String]] = None, // ... or multi-line
 
     basePath: String, /* basePath is the only non-optional field */
-    pathFmt: Option[String] = None, // first replase partitions and params, then format DateTime
+    pathFmt: Option[String] = None,  // first replase partitions and params, then format DateTime
     pathStep: Option[String] = None, // ISO8601
 
-    partitions: Option[Map[String, String]] = None, // rules to build partitions
-    params: Option[Seq[String]] = None, // list of required params
+    partitions: Option[Map[String, String]] = None,    // rules to build partitions
+    params: Option[Seq[String]] = None,                // list of required params
     defaultParams: Option[Map[String, String]] = None, // for possible default values for params
 
     dts: Option[Map[String, DtPartition]] = None

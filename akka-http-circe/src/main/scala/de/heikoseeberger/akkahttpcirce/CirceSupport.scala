@@ -86,8 +86,10 @@ trait BaseCirceSupport {
   ): ToEntityMarshaller[Json] =
     Marshaller.oneOf(mediaTypes: _*) { mediaType =>
       Marshaller.withFixedContentType(ContentType(mediaType)) { json =>
-        HttpEntity(mediaType,
-                   ByteString(printer.printToByteBuffer(json, mediaType.charset.nioCharset())))
+        HttpEntity(
+          mediaType,
+          ByteString(printer.printToByteBuffer(json, mediaType.charset.nioCharset()))
+        )
       }
     }
 
@@ -121,7 +123,7 @@ trait BaseCirceSupport {
     * @return unmarshaller for `Either[io.circe.ParsingFailure, Json]`
     */
   implicit final val safeJsonUnmarshaller
-    : FromEntityUnmarshaller[Either[io.circe.ParsingFailure, Json]] =
+      : FromEntityUnmarshaller[Either[io.circe.ParsingFailure, Json]] =
     Unmarshaller.stringUnmarshaller
       .forContentTypes(unmarshallerContentTypes: _*)
       .map(parse)
@@ -146,7 +148,7 @@ trait FailFastUnmarshaller { this: BaseCirceSupport =>
   }
 
   implicit final def safeUnmarshaller[A: Decoder]
-    : FromEntityUnmarshaller[Either[io.circe.Error, A]] = {
+      : FromEntityUnmarshaller[Either[io.circe.Error, A]] = {
     def decode(json: Json) = Decoder[A].decodeJson(json)
     safeJsonUnmarshaller.map(_.flatMap(decode))
   }
@@ -166,7 +168,7 @@ trait ErrorAccumulatingUnmarshaller { this: BaseCirceSupport =>
   }
 
   implicit final def safeUnmarshaller[A: Decoder]
-    : FromEntityUnmarshaller[ValidatedNel[io.circe.Error, A]] = {
+      : FromEntityUnmarshaller[ValidatedNel[io.circe.Error, A]] = {
     def decode(json: Json): ValidatedNel[io.circe.Error, A] =
       Decoder[A]
         .decodeAccumulating(json.hcursor)
