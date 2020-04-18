@@ -15,12 +15,10 @@ trait WithJson4s {
   protected implicit val serialization: Serialization
 
   implicit def jd[A: Manifest]: JsonDeserializer[A] =
-    JsonDeserializer { s =>
-      serialization.read(s)
-    }
+    JsonDeserializer(s => serialization.read(s))
 
   implicit def js[A <: AnyRef]: JsonSerializer[A] =
-    JsonSerializer { serialization.write[A] }
+    JsonSerializer(serialization.write[A])
 }
 
 // jackson

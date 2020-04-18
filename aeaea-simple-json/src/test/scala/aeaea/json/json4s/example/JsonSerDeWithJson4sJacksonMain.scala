@@ -1,12 +1,10 @@
-package aeaea.json.json4s
+package aeaea.json.json4s.example
 
-private object JsonSerDeWithJson4sJacksonApp extends App {
+private object JsonSerDeWithJson4sJacksonMain extends App {
 
-  import aeaea.json.base.JsonSerDe
-
-  final case class Foo(bar: String)
-
-  {
+  { // InnerFoo
+    import aeaea.json.base.JsonSerDe
+    import aeaea.json.json4s.WithJson4sJackson
     object JsonSerDeWithJson4sJackson extends JsonSerDe with WithJson4sJackson {
       final case class InnerFoo(bar: String)
     }
@@ -17,14 +15,17 @@ private object JsonSerDeWithJson4sJacksonApp extends App {
     //println(Foo("implicit via import").toJSON)
   }
 
-  { // this works:
-    import JsonSerDe._
-    import WithJson4sJackson._
+  { // most common use case: works with any case class
+    final case class Foo(bar: String)
+    import aeaea.json.base.JsonSerDe._           // for fromJSON and implicit toJSON
+    import aeaea.json.json4s.WithJson4sJackson._ // for implicit serialization
     println(fromJSON[Foo]("""{ "bar": "bar2" }"""))
     println(Foo("implicit via import").toJSON)
   }
 
-  {
+  { // ExtendedFoo
+    import aeaea.json.base.JsonSerDe
+    import aeaea.json.json4s.WithJson4sJackson
     final case class ExtendedFoo(bar: String) extends JsonSerDe with WithJson4sJackson
     println(JsonSerDe.fromJSON[ExtendedFoo]("""{ "bar": "bar3" }"""))
     println(ExtendedFoo("implicit via extention").toJSON)
